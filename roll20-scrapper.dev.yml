@@ -1,0 +1,28 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+configuration:
+  copy:
+    - ./pkg
+    - ./vendor
+    - ./assets
+functions:
+  join-game:
+    lang: golang-http
+    handler: ./join-game
+    image: localhost:5000/join-game:latest
+    build_args:
+      GO111MODULE: off
+    environment_file:
+      - .env.yaml
+
+  get-players:
+    lang: golang-http
+    handler: ./get-players
+    image: localhost:5000/get-players:latest
+    build_args:
+      GO111MODULE: off
+    environment_file:
+      - .env.yaml
+
