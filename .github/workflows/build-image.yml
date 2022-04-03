@@ -17,7 +17,8 @@ jobs:
         uses: docker://openfaas/faas-cli:latest-root
         with:
           args: template store pull golang-http
-
+      - name: Install docker
+        uses: docker-practice/actions-setup-docker@master
       - name: Login to DockerHub
         if: success()
         uses: docker/login-action@v1
