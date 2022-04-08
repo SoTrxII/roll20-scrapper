@@ -40,8 +40,8 @@ jobs:
         with:
           context: ./build/get-players/
           file: ./build/get-players/Dockerfile
-          build-args:
-            - GO111MODULE=off
+          build-args: |
+            GO111MODULE=off
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/get-players:latest-${{ steps.define_env.outputs.github-sha-short }}
 
@@ -50,7 +50,7 @@ jobs:
         with:
           context: ./build/join-game/
           file: ./build/join-game/Dockerfile
-          build-args:
-            - GO111MODULE=off
+          build-args: |
+            GO111MODULE=off
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/join-game:latest-${{ steps.define_env.outputs.github-sha-short }}
