@@ -30,7 +30,7 @@ jobs:
       - name: Generate dockerfiles for all functions
         uses: docker://openfaas/faas-cli:latest-root
         with:
-          args: -f roll20-scrapper.dev.yml --shrinkwrap
+          args: build -f roll20-scrapper.dev.yml --shrinkwrap
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
