@@ -2,8 +2,8 @@ name: Build and push image to github registry
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 jobs:
   func-build:
     runs-on: ubuntu-latest
@@ -13,7 +13,7 @@ jobs:
 
       - name: Define ENV VARS
         id: define_env
-        run: echo "::set-output name=github-sha-short::$(echo $GITHUB_SHA | cut -c 1-7)"
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/*/}"
 
       - name: Pull template
         uses: docker://openfaas/faas-cli:latest-root
@@ -53,4 +53,4 @@ jobs:
           build-args: |
             GO111MODULE=off
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/join-game:latest-${{ steps.define_env.outputs.github-sha-short }}
+          tags: ${{ secrets.DOCKER_USERNAME }}/join-game:latest-${{ steps.define_env.outputs.tag }}
