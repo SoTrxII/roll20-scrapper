@@ -31,4 +31,3 @@ gopkg.in/yaml.v3
 handler/function/pkg/config-parser
 handler/function/pkg/scrapper
 # handler/function => ./
-# github.com/ => ./vendor

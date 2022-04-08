@@ -20,4 +20,4 @@ require (
 
 replace handler/function => ./
 
-replace github.com/ => ./vendor
+//replace github.com/ => ./vendor
