@@ -1,5 +1,7 @@
 # Serverless Roll20 Scrapper
 
+[![codecov](https://codecov.io/gh/SoTrxII/roll20-scrapper/branch/master/graph/badge.svg?token=YI8X1HA6I7)](https://codecov.io/gh/SoTrxII/roll20-scrapper)
+
 This project is a serverless (OpenFaas flavored) implementation of a [Roll20](https://roll20.net/welcome) scrapper.
 Although all function share a single core, each of them is distributed as its own container to leverage scalability.
 
