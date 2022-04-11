@@ -20,15 +20,19 @@ type Scrapper struct {
 // swagger:model Player
 //Player A Roll20 Player as listed on the campaign page
 type Player struct {
-	// Player avatar URL
-	AvatarUrl string
-	// Is the player a GM of the parsed game.
-	// There are multiple GM per games
-	IsGm bool
-	// Roll20 Id of the player
-	Roll20Id int
-	// Username (not character name)
-	Username string
+	// This player avatar URl. Can either be on roll20 CDN or external
+	AvatarUrl string `json:"avatarUrl"`
+	// Is the player a GM of the parsed game
+	// There can be multiple GMs for a single game
+	// required: true
+	IsGm bool `json:"isGm"`
+	// This player roll20 unique id
+	// required: true
+	// unique: true
+	Roll20Id int `json:"roll20Id"`
+	// This player username (not character name in game, roll20 username)
+	// required: true
+	Username string `json:"username"`
 }
 
 // A Roll20Account is a basic creds user in roll20
