@@ -1,0 +1,29 @@
+name: Build and push image to github registry
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  func-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '=1.17.0'
+      - name: Execute tests
+        run: go mod vendor; go test -cover ./... -coverprofile="coverage.out"
+      - name: Convert go covreage format to lcov format
+        uses: jandelgado/gcov2lcov-action@v1.0.5
+        with:
+          infile: coverage.out
+          outfile: coverage.lcov
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./coverage.lcov
+          fail_ci_if_error: true
+          verbose: true
