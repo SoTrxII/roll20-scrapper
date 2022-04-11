@@ -1,0 +1,152 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/get-players": {
+      "get": {
+        "description": "The player can either be GMs or not. There can be multiple GMs in a single game",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Players"
+        ],
+        "summary": "Retrieve all players for a specific roll20 game.",
+        "operationId": "get-players",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Roll20 ID of the game to parse. For link https://app.roll20.net/join/1/59lzQg --\u003e Game ID is \"1\"",
+            "name": "gameId",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Complete list of players for the requested game",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Player"
+              }
+            }
+          },
+          "207": {
+            "description": "Incomplete list of players for the requested game",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Player"
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid game ID provided",
+            "schema": {
+              "$ref": "#/definitions/ErrorTemplate"
+            }
+          },
+          "500": {
+            "description": "Configuration error, either env variables missing or provided roll20 credentials invalid",
+            "schema": {
+              "$ref": "#/definitions/ErrorTemplate"
+            }
+          }
+        }
+      }
+    },
+    "/join-game": {
+      "get": {
+        "description": "This is a mandatory step for every other request, as the bot account won't have access to a game before joining it",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Players"
+        ],
+        "summary": "Makes the bot account join the game as a player",
+        "operationId": "join-game",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Roll20 ID of the game to parse. For link https://app.roll20.net/join/1/59lzQg --\u003e Game ID is \"1\"",
+            "name": "gameId",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Roll20 Code to join the game. This is usually the last part of the join link. For link https://app.roll20.net/join/1/59lzQg --\u003e Join code is \"59lzQg\"",
+            "name": "gameCode",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": " Game successfully joined"
+          },
+          "400": {
+            "description": "Missing or invalid game ID or gameCode provided",
+            "schema": {
+              "$ref": "#/definitions/ErrorTemplate"
+            }
+          },
+          "500": {
+            "description": "Configuration error, either env variables missing or provided roll20 credentials invalid",
+            "schema": {
+              "$ref": "#/definitions/ErrorTemplate"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ErrorTemplate": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "x-go-name": "Message"
+        }
+      },
+      "x-go-package": "roll20-scrapper/pkg/http-helpers"
+    },
+    "Player": {
+      "type": "object",
+      "required": [
+        "isGm",
+        "roll20Id",
+        "username"
+      ],
+      "properties": {
+        "avatarUrl": {
+          "description": "This player avatar URl. Can either be on roll20 CDN or external",
+          "type": "string",
+          "x-go-name": "AvatarUrl"
+        },
+        "isGm": {
+          "description": "Is the player a GM of the parsed game\nThere can be multiple GMs for a single game",
+          "type": "boolean",
+          "x-go-name": "IsGm"
+        },
+        "roll20Id": {
+          "description": "This player roll20 unique id",
+          "type": "integer",
+          "format": "int64",
+          "uniqueItems": true,
+          "x-go-name": "Roll20Id"
+        },
+        "username": {
+          "description": "This player username (not character name in game, roll20 username)",
+          "type": "string",
+          "x-go-name": "Username"
+        }
+      },
+      "x-go-package": "roll20-scrapper/pkg/scrapper"
+    }
+  }
+}
