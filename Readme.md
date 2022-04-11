@@ -10,6 +10,8 @@ Current functionnalities includes :
 - Retrieving players from a game
 - Make the bot account join the game as a player (necessary for other functions)
 
+Full documentation is available here : https://sotrxii.github.io/roll20-scrapper/
+
 ## Configure
 
 All the functions needs the following environment variables:
