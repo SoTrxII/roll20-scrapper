@@ -1,4 +1,4 @@
- # Setup a k8s cluster to deploy openfass in
+ # Setup a k8s cluster to deploy openfass in, docker is required
 kind create cluster
 arkade install openfaas --basic-auth=false
 kubectl rollout status -n openfaas deploy/gateway
