@@ -1,6 +1,8 @@
 # Serverless Roll20 Scrapper
 
 [![codecov](https://codecov.io/gh/SoTrxII/roll20-scrapper/branch/master/graph/badge.svg?token=YI8X1HA6I7)](https://codecov.io/gh/SoTrxII/roll20-scrapper)
+[![Docker Image Size](https://badgen.net/docker/size/sotrx/get-players/1.0.1?icon=docker&label=get-players)](https://hub.docker.com/r/sotrx/get-players/)
+[![Docker Image Size](https://badgen.net/docker/size/sotrx/join-game/1.0.1?icon=docker&label=join-game)](https://hub.docker.com/r/sotrx/join-game/)
 
 This project is a serverless (OpenFaas flavored) implementation of a [Roll20](https://roll20.net/welcome) scrapper.
 Although all function share a single core, each of them is distributed as its own container to leverage scalability.
