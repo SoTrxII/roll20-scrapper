@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
+	"strconv"
 	"strings"
 )
 
@@ -15,6 +16,7 @@ type Scrapper struct {
 	routes  *roll20Routes
 	client  *http.Client
 	account *Roll20Account
+	options *Options
 }
 
 // swagger:model Player
@@ -44,6 +46,12 @@ type Roll20Account struct {
 	Password string
 }
 
+// Options All user-changeable options
+type Options struct {
+	// Should the bot account ignore itself when retrieving data ? Default : true
+	IgnoreSelf bool
+}
+
 type IncompleteError struct {
 	Err error
 }
@@ -53,12 +61,15 @@ func (r *IncompleteError) Error() string {
 }
 
 // NewScrapper Creates a new Roll20 Scrapper instance, login it in immediately
-func NewScrapper(baseUrl string, account *Roll20Account) (*Scrapper, error) {
+func NewScrapper(baseUrl string, account *Roll20Account, options *Options) (*Scrapper, error) {
 	jar, err := cookiejar.New(nil)
 	if err != nil {
 		return nil, err
 	}
-	s := &Scrapper{baseUrl: baseUrl, routes: getRoutes(), client: &http.Client{Jar: jar}, account: account}
+	if options == nil {
+		options = &Options{IgnoreSelf: true}
+	}
+	s := &Scrapper{baseUrl: baseUrl, routes: getRoutes(), client: &http.Client{Jar: jar}, account: account, options: options}
 	err = s.login()
 	if err != nil {
 		return nil, err
@@ -145,6 +156,24 @@ func (s *Scrapper) GetPlayers(campaignId string) (*[]Player, error) {
 	}
 	players = append(players, gm)
 
+	// Remove the scrapper bot account from the list of scrapped players
+	if s.options.IgnoreSelf {
+		ownId, err := retrieveOwnRoll20ID(doc)
+		if err != nil {
+			return nil, fmt.Errorf("The scrapper couldn't retrieve its own ID, something not right with the DOM")
+		}
+
+		n := 0
+		for _, player := range players {
+			if player.Roll20Id != ownId {
+				players[n] = player
+				n++
+			}
+		}
+		players = players[:n]
+
+	}
+
 	if len(ignoredPlayers) > 0 {
 		err = &IncompleteError{
 			Err: fmt.Errorf("The following players have been ignored : %s", strings.Join(ignoredPlayers, ",")),
@@ -179,6 +208,19 @@ func (s *Scrapper) login() error {
 		return fmt.Errorf("invalid credentials provided. u : %s, p: %s", s.account.Login, s.account.Password)
 	}
 	return nil
+}
+
+func retrieveOwnRoll20ID(doc *goquery.Document) (int, error) {
+	href, exist := doc.Find(".topbarlogin .simple a[href*=\"wishlists\"]").First().Attr("href")
+	if !exist {
+		return -1, fmt.Errorf("The scrapper couldn't retrieve its own ID, something not right with the DOM")
+	}
+	hrefArray := strings.Split(strings.TrimSpace(href), "/")
+	ownId, err := strconv.Atoi(hrefArray[len(hrefArray)-1])
+	if err != nil {
+		return -1, err
+	}
+	return ownId, nil
 }
 
 // From a player division, parse a Player object.

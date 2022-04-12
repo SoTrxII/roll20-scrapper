@@ -70,14 +70,30 @@ func countPlayers(players []Player) uint8 {
 // A single GM (the game creator) in the Roll20 game
 func TestSingleGM(t *testing.T) {
 	mockServer := SetupTestServer("../../assets/sample_campaign_page.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
 	players, err = scrapper.GetPlayers("")
 	assert.Nil(t, err)
 	// A single GM
 	assert.Equal(t, uint8(1), countGMs(*players))
-	// And 6 players
+	// And 6 players, ignoring the scrapper
+	assert.Equal(t, uint8(6), countPlayers(*players))
+	mockServer.Close()
+
+}
+
+// A single GM (the game creator) in the Roll20 game
+func TestIncludingScrapper(t *testing.T) {
+	mockServer := SetupTestServer("../../assets/sample_campaign_page.html")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, &Options{IgnoreSelf: false})
+	assert.Nil(t, err)
+	var players *[]Player
+	players, err = scrapper.GetPlayers("")
+	assert.Nil(t, err)
+	// A single GM
+	assert.Equal(t, uint8(1), countGMs(*players))
+	// And 7 players, including the scrapper
 	assert.Equal(t, uint8(7), countPlayers(*players))
 	mockServer.Close()
 
@@ -86,7 +102,7 @@ func TestSingleGM(t *testing.T) {
 // Multiple GMs (the game creator + some players with GM perms) in the Roll20 Game
 func TestMultipleGMs(t *testing.T) {
 	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
 	players, err = scrapper.GetPlayers("")
@@ -94,8 +110,8 @@ func TestMultipleGMs(t *testing.T) {
 
 	// Twos GM
 	assert.Equal(t, uint8(2), countGMs(*players))
-	// And 9 players
-	assert.Equal(t, uint8(9), countPlayers(*players))
+	// And 8 players, ignoring the scrapper
+	assert.Equal(t, uint8(8), countPlayers(*players))
 	mockServer.Close()
 }
 
@@ -103,7 +119,7 @@ func TestMultipleGMs(t *testing.T) {
 // case at least once
 func TestMissingPlayers(t *testing.T) {
 	mockServer := SetupTestServer("./../../assets/sample_campaign_missing_id.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
 	players, err = scrapper.GetPlayers("")
@@ -122,7 +138,7 @@ func TestMissingPlayers(t *testing.T) {
 
 func TestMissingGM(t *testing.T) {
 	mockServer := SetupTestServer("./../../assets/sample_campaign_missing_gm.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	players, err := scrapper.GetPlayers("")
 	assert.Error(t, err)
@@ -132,20 +148,20 @@ func TestMissingGM(t *testing.T) {
 
 func TestMissingAvatar(t *testing.T) {
 	mockServer := SetupTestServer("./../../assets/sample_campaign_no_gm_avatar.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	players, err := scrapper.GetPlayers("")
 	// A single GM
 	assert.Equal(t, uint8(1), countGMs(*players))
 	// And 6 players
-	assert.Equal(t, uint8(7), countPlayers(*players))
+	assert.Equal(t, uint8(6), countPlayers(*players))
 	mockServer.Close()
 }
 
 // Simply joining a game as a player
 func TestJoinGame(t *testing.T) {
 	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	err = scrapper.JoinGame("", "")
 	assert.Nil(t, err)
@@ -155,7 +171,7 @@ func TestJoinGame(t *testing.T) {
 // Simply joining a game as a player
 func TestJoinWrongURL(t *testing.T) {
 	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	err = scrapper.JoinGame("%DSLSDLSMM", "##MMMD%%")
 	assert.Error(t, err)
@@ -166,7 +182,7 @@ func TestJoinWrongURL(t *testing.T) {
 func TestFailingJoiningGame(t *testing.T) {
 	// Login with a good server
 	mockServer := SetupConstantServer(200)
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	mockServer.Close()
 	assert.Nil(t, err)
 
@@ -181,7 +197,7 @@ func TestFailingJoiningGame(t *testing.T) {
 // When the autologin on scrapper creation fail, end gracefully
 func TestFailingLogin(t *testing.T) {
 	mockServer := SetupConstantServer(500)
-	_, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	_, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Error(t, err)
 	mockServer.Close()
 }
@@ -189,7 +205,7 @@ func TestFailingLogin(t *testing.T) {
 // Corrupted DOM / Roll20 update
 func TestInvalidDocument(t *testing.T) {
 	mockServer := SetupTestServer("./../../assets/non_existant.html")
-	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"})
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
 	players, err = scrapper.GetPlayers("")

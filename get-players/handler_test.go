@@ -125,7 +125,7 @@ func TestCompleteAnswer(t *testing.T) {
 	var players []scrapper.Player
 	err = json.Unmarshal(res.Body, &players)
 	assert.Nil(t, err)
-	assert.Len(t, players, 8)
+	assert.Len(t, players, 7)
 	mockServer.Close()
 
 }

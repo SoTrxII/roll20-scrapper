@@ -62,7 +62,7 @@ func Handle(req handler2.Request) (handler2.Response, error) {
 	}
 
 	// Join the roll20 game
-	s, err := scrapper.NewScrapper(values["ROLL20_BASE_URL"], &scrapper.Roll20Account{Login: values["ROLL20_USERNAME"], Password: values["ROLL20_PASSWORD"]})
+	s, err := scrapper.NewScrapper(values["ROLL20_BASE_URL"], &scrapper.Roll20Account{Login: values["ROLL20_USERNAME"], Password: values["ROLL20_PASSWORD"]}, nil)
 	if err != nil {
 		return handler2.Response{StatusCode: http.StatusInternalServerError, Body: http_helpers.FormatError("Unexpected error")}, err
 	}
