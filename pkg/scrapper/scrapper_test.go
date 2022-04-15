@@ -1,6 +1,7 @@
 package scrapper
 
 import (
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"net/http"
@@ -12,13 +13,13 @@ import (
 	"testing"
 )
 
-func SetupTestServer(campaignDataPath string) *httptest.Server {
+func SetupTestServer(campaignDataPath string, urlMatch string) *httptest.Server {
 	_, filename, _, _ := runtime.Caller(0)
 	dir := path.Dir(filename)
 	sample, _ := os.Open(path.Join(dir, campaignDataPath))
 	sampleData, _ := ioutil.ReadAll(sample)
 	mockServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if strings.Contains(r.URL.Path, "/campaigns/details/") {
+		if strings.Contains(r.URL.Path, urlMatch) {
 			w.Write(sampleData)
 		} else {
 			w.WriteHeader(200)
@@ -69,7 +70,7 @@ func countPlayers(players []Player) uint8 {
 
 // A single GM (the game creator) in the Roll20 game
 func TestSingleGM(t *testing.T) {
-	mockServer := SetupTestServer("../../assets/sample_campaign_page.html")
+	mockServer := SetupTestServer("../../assets/sample_campaign_page.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
@@ -85,7 +86,7 @@ func TestSingleGM(t *testing.T) {
 
 // A single GM (the game creator) in the Roll20 game
 func TestIncludingScrapper(t *testing.T) {
-	mockServer := SetupTestServer("../../assets/sample_campaign_page.html")
+	mockServer := SetupTestServer("../../assets/sample_campaign_page.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, &Options{IgnoreSelf: false})
 	assert.Nil(t, err)
 	var players *[]Player
@@ -101,7 +102,7 @@ func TestIncludingScrapper(t *testing.T) {
 
 // Multiple GMs (the game creator + some players with GM perms) in the Roll20 Game
 func TestMultipleGMs(t *testing.T) {
-	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html")
+	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
@@ -118,7 +119,7 @@ func TestMultipleGMs(t *testing.T) {
 // Some players couldn't be parsed for some reason. This may never happen again but has been the
 // case at least once
 func TestMissingPlayers(t *testing.T) {
-	mockServer := SetupTestServer("./../../assets/sample_campaign_missing_id.html")
+	mockServer := SetupTestServer("./../../assets/sample_campaign_missing_id.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
@@ -137,7 +138,7 @@ func TestMissingPlayers(t *testing.T) {
 }
 
 func TestMissingGM(t *testing.T) {
-	mockServer := SetupTestServer("./../../assets/sample_campaign_missing_gm.html")
+	mockServer := SetupTestServer("./../../assets/sample_campaign_missing_gm.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	players, err := scrapper.GetPlayers("")
@@ -147,7 +148,7 @@ func TestMissingGM(t *testing.T) {
 }
 
 func TestMissingAvatar(t *testing.T) {
-	mockServer := SetupTestServer("./../../assets/sample_campaign_no_gm_avatar.html")
+	mockServer := SetupTestServer("./../../assets/sample_campaign_no_gm_avatar.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	players, err := scrapper.GetPlayers("")
@@ -160,7 +161,7 @@ func TestMissingAvatar(t *testing.T) {
 
 // Simply joining a game as a player
 func TestJoinGame(t *testing.T) {
-	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html")
+	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	err = scrapper.JoinGame("", "")
@@ -170,7 +171,7 @@ func TestJoinGame(t *testing.T) {
 
 // Simply joining a game as a player
 func TestJoinWrongURL(t *testing.T) {
-	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html")
+	mockServer := SetupTestServer("./../../assets/sample_campaign_page_multiple_gms.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	err = scrapper.JoinGame("%DSLSDLSMM", "##MMMD%%")
@@ -204,12 +205,139 @@ func TestFailingLogin(t *testing.T) {
 
 // Corrupted DOM / Roll20 update
 func TestInvalidDocument(t *testing.T) {
-	mockServer := SetupTestServer("./../../assets/non_existant.html")
+	mockServer := SetupTestServer("./../../assets/non_existant.html", "/campaigns/details/")
 	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
 	assert.Nil(t, err)
 	var players *[]Player
 	players, err = scrapper.GetPlayers("")
 	assert.Error(t, err)
 	assert.Nil(t, players)
+	mockServer.Close()
+}
+
+// Corrupted DOM / Roll20 update
+func TestGetMessagesOfValidPage(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	var messages []Message
+	err = scrapper.getMessagesOfPage("", 1, &messages)
+	assert.Nil(t, err)
+	assert.NotEqual(t, 0, len(messages))
+
+	println(messages)
+	mockServer.Close()
+}
+
+// This page doesn't exists
+func TestGetMessagesOfInvalidPage(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	var messages []Message
+	err = scrapper.getMessagesOfPage("", 100, &messages)
+	assert.Nil(t, err)
+	assert.Equal(t, 0, len(messages))
+	println(messages)
+	mockServer.Close()
+}
+
+func TestGetDomInternetDown(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	mockServer.Close()
+	dom, err := scrapper.getDomOfRoute("/nevermind")
+	println(err.Error())
+	assert.Nil(t, dom)
+	assert.Error(t, err)
+	mockServer.Close()
+}
+
+func TestGetDomEmptyBody(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	mockServer.Close()
+	// Switching server for one that will no answer with a body
+	mockServer = SetupConstantServer(204)
+	scrapper.baseUrl = mockServer.URL
+	dom, err := scrapper.getDomOfRoute("/campaigns/chatarchive/")
+	println(err.Error())
+	assert.Nil(t, dom)
+	assert.Error(t, err)
+	mockServer.Close()
+}
+
+// Get messages with a set limit
+func TestGetMessagesWithLimit(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	messages, err := scrapper.GetMessages("", 3, nil)
+	fmt.Printf("%+v", *messages)
+	assert.Nil(t, err)
+	assert.Equal(t, 3, len(*messages))
+
+	mockServer.Close()
+}
+
+// Get messages with a set limit
+func TestGetMessagesWithLimit0(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	messages, err := scrapper.GetMessages("", 0, nil)
+	assert.Nil(t, err)
+	assert.Equal(t, 0, len(*messages))
+
+	mockServer.Close()
+}
+
+// Ignoring whisper is the default
+func TestGetMessagesIgnoreWhispers(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	options := NewMessageOptions()
+	// Including all message
+	options.IncludeWhispers = false
+	messages, err := scrapper.GetMessages("", ^uint(0), options)
+	assert.Nil(t, err)
+	// The sample as 70 messages per page. 5 of them are whispers. They are 3 virtual page. Total rolls should be 195
+	assert.Equal(t, 3*(70-5), len(*messages))
+	mockServer.Close()
+}
+
+// Filtering to have only rolls
+func TestGetMessagesOnlyRolls(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	options := NewMessageOptions()
+	// Including all message
+	options.IncludeWhispers = false
+	options.IncludeChat = false
+	messages, err := scrapper.GetMessages("", ^uint(0), options)
+	assert.Nil(t, err)
+	// The sample as 70 messages per page. 19 of them are whispers. They are 3 virtual page. Total rolls should be 57
+	assert.Equal(t, 3*19, len(*messages))
+	mockServer.Close()
+}
+
+// Combining options
+func TestGetMessagesWithLimitAndFilter(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_chat_archive.html", "/campaigns/chatarchive/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	options := NewMessageOptions()
+	// Including all message
+	options.IncludeWhispers = false
+	options.IncludeChat = false
+	messages, err := scrapper.GetMessages("", 21, options)
+	assert.Nil(t, err)
+	// The sample as 70 messages per page. 19 of them are whispers. They are 3 virtual page. With a limit of 21,
+	assert.Equal(t, 21, len(*messages))
+
 	mockServer.Close()
 }

@@ -1,6 +1,8 @@
 package scrapper
 
 import (
+	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"io/ioutil"
@@ -17,47 +19,6 @@ type Scrapper struct {
 	client  *http.Client
 	account *Roll20Account
 	options *Options
-}
-
-// swagger:model Player
-//Player A Roll20 Player as listed on the campaign page
-type Player struct {
-	// This player avatar URl. Can either be on roll20 CDN or external
-	AvatarUrl string `json:"avatarUrl"`
-	// Is the player a GM of the parsed game
-	// There can be multiple GMs for a single game
-	// required: true
-	IsGm bool `json:"isGm"`
-	// This player roll20 unique id
-	// required: true
-	// unique: true
-	Roll20Id int `json:"roll20Id"`
-	// This player username (not character name in game, roll20 username)
-	// required: true
-	Username string `json:"username"`
-}
-
-// A Roll20Account is a basic creds user in roll20
-//
-// As there is so such thing as a service account in Roll20,
-// this has to be a real account
-type Roll20Account struct {
-	Login    string
-	Password string
-}
-
-// Options All user-changeable options
-type Options struct {
-	// Should the bot account ignore itself when retrieving data ? Default : true
-	IgnoreSelf bool
-}
-
-type IncompleteError struct {
-	Err error
-}
-
-func (r *IncompleteError) Error() string {
-	return r.Err.Error()
 }
 
 // NewScrapper Creates a new Roll20 Scrapper instance, login it in immediately
@@ -95,16 +56,13 @@ func (s *Scrapper) JoinGame(gameId string, gameCode string) error {
 	return nil
 }
 
+// GetPlayers Retrieve all players of a Roll20 game given the id of a joined campaign
 func (s *Scrapper) GetPlayers(campaignId string) (*[]Player, error) {
-	campaignDomUrl, err := url.Parse(s.baseUrl + s.routes.campaignDetails(campaignId))
+	route := s.routes.campaignDetails(campaignId)
+	doc, err := s.getDomOfRoute(route)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("unable to retrieve the DOM of %s : %s", route, err)
 	}
-	res, err := s.client.Get(campaignDomUrl.String())
-	if err != nil {
-		return nil, err
-	}
-	doc, err := goquery.NewDocumentFromReader(res.Body)
 	if err != nil {
 		return nil, err
 	}
@@ -182,6 +140,144 @@ func (s *Scrapper) GetPlayers(campaignId string) (*[]Player, error) {
 	return &players, err
 }
 
+// GetMessages Retrieve all messages from the chat
+func (s *Scrapper) GetMessages(campaignId string, limit uint, options *MessageOptions) (*[]Message, error) {
+	var messages []Message
+
+	// Why ?
+	if limit == 0 {
+		return &messages, nil
+	}
+
+	if options == nil {
+		options = NewMessageOptions()
+	}
+
+	// Fetching all pages, only stopping when we ran up of messages to parse, or if we got to the requested limit
+	for currentPage, oldMessagesLen := 1, -1; uint(len(messages)) < limit && oldMessagesLen != len(messages); currentPage++ {
+		oldMessagesLen = len(messages)
+		var messageTemp []Message
+		err := s.getMessagesOfPage(campaignId, currentPage, &messageTemp)
+		if err != nil {
+			return nil, fmt.Errorf("while parsing page %d : %s", currentPage, err)
+		}
+		// Filter message with user inputs
+		for _, m := range messageTemp {
+			if options.isAllowing(m) {
+				messages = append(messages, m)
+			}
+		}
+
+	}
+
+	// If too many result were parsed, truncate the array
+	if uint(len(messages)) > limit {
+		messages = messages[0:limit]
+	}
+
+	return &messages, nil
+}
+
+// getMessagesOfPage Retrieve all the messages from a specific page
+func (s *Scrapper) getMessagesOfPage(campaignId string, page int, messagesBuffer *[]Message) error {
+	route := s.routes.campaignArchives(campaignId, page)
+	doc, err := s.getDomOfRoute(route)
+	if err != nil || doc == nil {
+		return fmt.Errorf("unable to retrieve the DOM of %s : %s", route, err)
+	}
+	// Checking if we requested a non-existing page
+	// Something like "Page 1/100"
+	pageDiv := doc.Find(".pagination div")
+	if pageDiv == nil {
+		return fmt.Errorf("Unable to locate pagination div. Halting")
+	}
+	pageText := pageDiv.Text()
+	if !strings.HasPrefix(pageText, "Page") {
+		return fmt.Errorf("Unable to locate pagination text, got %s", pageText)
+	}
+	offsets := strings.Split(strings.TrimSpace(strings.Replace(pageText, "Page", "", 1)), "/")
+	pageUpperLimit, err := strconv.Atoi(offsets[1])
+	if err != nil {
+		return fmt.Errorf("Unable to locate pagination text, got %s", pageText)
+	}
+	if page > pageUpperLimit {
+		return nil
+	}
+	// Page is valid, let's parse
+
+	// Searching for the base54 encoded data array
+	const PREFIX = "var msgdata ="
+	// It's contained in a script tag
+	allScripts := doc.Find("script")
+	// Reverse the matches, the script containing msgData should be near the end
+	for i, j := 0, len(allScripts.Nodes)-1; i < j; i, j = i+1, j-1 {
+		allScripts.Nodes[i], allScripts.Nodes[j] = allScripts.Nodes[j], allScripts.Nodes[i]
+	}
+	var chosenScript *goquery.Selection
+	allScripts.EachWithBreak(func(i int, script *goquery.Selection) bool {
+		text := strings.TrimSpace(script.Text())
+		if strings.HasPrefix(text, PREFIX) {
+			chosenScript = script
+			// Break the loop
+			return false
+		}
+		return true
+	})
+	if chosenScript == nil {
+		return fmt.Errorf("Couldn't retrieve the msgdata variable")
+	}
+	msgScript := chosenScript.Text()
+	// Remove variable declaration prefix
+	msgScript = strings.TrimSpace(strings.Replace(msgScript, PREFIX, "", 1))
+	const SUFFIX = "\";\nO"
+	lastIndex := strings.LastIndex(msgScript, SUFFIX)
+	if lastIndex == -1 {
+		return fmt.Errorf("msgdata variable isn't well formatted")
+	}
+	// Remove isolate the value of the msgData variable
+	// len(suffix) -1 is to keep the "==" but not the trailing '"'
+	msgScript = msgScript[1:lastIndex]
+
+	chatMessages, err := base64.StdEncoding.DecodeString(msgScript)
+	if err != nil {
+		return err
+	}
+	// Spatial complexity is at least 2N, N < 100 messages
+	// Raw JSON struct as returned by roll20
+	var mappedMessages []map[string]Message
+	// Actual isolated messages
+	err = json.Unmarshal(chatMessages, &mappedMessages)
+	if err != nil {
+		return err
+	}
+
+	for _, v := range mappedMessages[0] {
+		*messagesBuffer = append(*messagesBuffer, v)
+	}
+
+	return nil
+}
+
+// Given a Roll20 relative url, retrieve the DOm as a goquery document
+func (s *Scrapper) getDomOfRoute(path string) (*goquery.Document, error) {
+	campaignArchivesUrl, err := url.Parse(s.baseUrl + path)
+	if err != nil {
+		return nil, err
+	}
+	res, err := s.client.Get(campaignArchivesUrl.String())
+	if err != nil {
+		return nil, err
+	}
+	if res.StatusCode != 200 || res.ContentLength == 0 {
+		return nil, fmt.Errorf("invalid response received. Status is %d, Content length is %d", res.StatusCode, res.ContentLength)
+	}
+	doc, err := goquery.NewDocumentFromReader(res.Body)
+	if err != nil {
+		return nil, err
+	}
+	return doc, nil
+}
+
 // Log in to roll20 using the defined account
 // This will initialize the cookies needed to make an authorized request to roll20
 func (s *Scrapper) login() error {
@@ -210,6 +306,7 @@ func (s *Scrapper) login() error {
 	return nil
 }
 
+// Fetch the bot account own ID, this is to allow the bot to ignore itself on the players fetching
 func retrieveOwnRoll20ID(doc *goquery.Document) (int, error) {
 	href, exist := doc.Find(".topbarlogin .simple a[href*=\"wishlists\"]").First().Attr("href")
 	if !exist {
