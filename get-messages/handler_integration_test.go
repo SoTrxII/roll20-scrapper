@@ -35,7 +35,6 @@ func LoadEnv(t *testing.T) {
 func TestGetMessages(t *testing.T) {
 	LoadEnv(t)
 	game_id, err := strconv.Atoi(os.Getenv("TESTING_CAMPAIGN_ID"))
-	game_id = 4485864
 	if err != nil {
 		t.Fatalf("testing campaign id invalid -> %s", os.Getenv("TESTING_CAMPAIGN_ID"))
 	}

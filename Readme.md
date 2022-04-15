@@ -1,8 +1,9 @@
 # Serverless Roll20 Scrapper
 
 [![codecov](https://codecov.io/gh/SoTrxII/roll20-scrapper/branch/master/graph/badge.svg?token=YI8X1HA6I7)](https://codecov.io/gh/SoTrxII/roll20-scrapper)
-[![Docker Image Size](https://badgen.net/docker/size/sotrx/get-players/1.0.1?icon=docker&label=get-players)](https://hub.docker.com/r/sotrx/get-players/)
-[![Docker Image Size](https://badgen.net/docker/size/sotrx/join-game/1.0.1?icon=docker&label=join-game)](https://hub.docker.com/r/sotrx/join-game/)
+[![Docker Image Size](https://badgen.net/docker/size/sotrx/get-players/1.2.0?icon=docker&label=get-players)](https://hub.docker.com/r/sotrx/get-players/)
+[![Docker Image Size](https://badgen.net/docker/size/sotrx/join-game/1.2.0?icon=docker&label=join-game)](https://hub.docker.com/r/sotrx/join-game/)
+[![Docker Image Size](https://badgen.net/docker/size/sotrx/get-messages/1.2.0?icon=docker&label=get-messages)](https://hub.docker.com/r/sotrx/get-messages/)
 
 This project is a serverless (OpenFaas flavored) implementation of a [Roll20](https://roll20.net/welcome) scrapper.
 Although all function share a single core, each of them is distributed as its own container to leverage scalability.
@@ -10,6 +11,7 @@ Although all function share a single core, each of them is distributed as its ow
 Current functionalities includes :
 
 - Retrieving players from a game
+- Retrieving all messages sent to a chat from a game (including rolls)
 - Make the bot account join the game as a player (necessary for other functions)
 
 Full API documentation is available here : https://sotrxii.github.io/roll20-scrapper/
@@ -33,7 +35,7 @@ To deploy the functions, the simplest method is to use [faas-cli](https://docs.o
 ````shell
 # Deploying "get-players"
 faas-cli deploy \
- --image "sotrx/get-players:1.0.1"\
+ --image "sotrx/get-players:1.2.0"\
  --name "get-players"\
  --gateway <GTW_URL>\
  -e="ROLL20_USERNAME=<BOT_USERNAME>"\
@@ -42,7 +44,16 @@ faas-cli deploy \
  
  # Deploying "join-game"
 faas-cli deploy \
- --image "sotrx/join-game:1.0.1"\
+ --image "sotrx/join-game:1.2.0"\
+ --name "join-game"\
+ --gateway <GTW_URL>\
+ -e="ROLL20_USERNAME=<BOT_USERNAME>"\
+ -e="ROLL20_PASSWORD=<BOT_PASSWORD>"\
+ -e="ROLL20_BASE_URL=https://app.roll20.net/"
+ 
+  # Deploying "get-messages"
+faas-cli deploy \
+ --image "sotrx/join-game:1.2.0"\
  --name "join-game"\
  --gateway <GTW_URL>\
  -e="ROLL20_USERNAME=<BOT_USERNAME>"\
@@ -62,7 +73,7 @@ metadata:
   namespace: openfaas-fn
 spec:
   name: join-game
-  image: sotrx/join-game:1.0.1
+  image: sotrx/join-game:1.2.0
   environment:
     ROLL20_BASE_URL: https://app.roll20.net/
     ROLL20_PASSWORD: <BOT_PASSWORD>

@@ -147,6 +147,43 @@ func TestWithInvalidLimit(t *testing.T) {
 
 }
 
+func TestExcludingAll(t *testing.T) {
+	mockServer := SetupTestServer("assets/sample_campaign_chat_archive.html")
+	req := handler2.Request{
+		Body:        nil,
+		Header:      nil,
+		QueryString: "gameId=1&includeChats=false&includeWhispers=false&includeRolls=false",
+		Method:      "GET",
+		Host:        "",
+	}
+	res, err := Handle(req)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+	var messages []scrapper.Message
+	err = json.Unmarshal(res.Body, &messages)
+	assert.Len(t, messages, 0)
+	mockServer.Close()
+
+}
+func TestIncludingAll(t *testing.T) {
+	mockServer := SetupTestServer("assets/sample_campaign_chat_archive.html")
+	req := handler2.Request{
+		Body:        nil,
+		Header:      nil,
+		QueryString: "gameId=1&includeChats=true&includeWhispers=true&includeRolls=true",
+		Method:      "GET",
+		Host:        "",
+	}
+	res, err := Handle(req)
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+	var messages []scrapper.Message
+	err = json.Unmarshal(res.Body, &messages)
+	assert.Len(t, messages, 210)
+	mockServer.Close()
+
+}
+
 // No env variables defined
 func TestNoEnv(t *testing.T) {
 	os.Unsetenv("ROLL20_BASE_URL")
