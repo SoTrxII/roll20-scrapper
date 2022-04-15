@@ -184,6 +184,52 @@ func TestIncludingAll(t *testing.T) {
 
 }
 
+func TestWrongOptionsChats(t *testing.T) {
+	mockServer := SetupTestServer("assets/sample_campaign_chat_archive.html")
+	req := handler2.Request{
+		Body:        nil,
+		Header:      nil,
+		QueryString: "gameId=1&includeChats=dd",
+		Method:      "GET",
+		Host:        "",
+	}
+	res, err := Handle(req)
+	assert.Error(t, err)
+	assert.Equal(t, http.StatusBadRequest, res.StatusCode)
+	mockServer.Close()
+
+}
+func TestWrongOptionsWhispers(t *testing.T) {
+	mockServer := SetupTestServer("assets/sample_campaign_chat_archive.html")
+	req := handler2.Request{
+		Body:        nil,
+		Header:      nil,
+		QueryString: "gameId=1&includeWhispers=dd",
+		Method:      "GET",
+		Host:        "",
+	}
+	res, err := Handle(req)
+	assert.Error(t, err)
+	assert.Equal(t, http.StatusBadRequest, res.StatusCode)
+	mockServer.Close()
+
+}
+func TestWrongOptionsRolls(t *testing.T) {
+	mockServer := SetupTestServer("assets/sample_campaign_chat_archive.html")
+	req := handler2.Request{
+		Body:        nil,
+		Header:      nil,
+		QueryString: "gameId=1&includeRolls=dd",
+		Method:      "GET",
+		Host:        "",
+	}
+	res, err := Handle(req)
+	assert.Error(t, err)
+	assert.Equal(t, http.StatusBadRequest, res.StatusCode)
+	mockServer.Close()
+
+}
+
 // No env variables defined
 func TestNoEnv(t *testing.T) {
 	os.Unsetenv("ROLL20_BASE_URL")
