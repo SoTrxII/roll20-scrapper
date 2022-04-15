@@ -1,6 +1,77 @@
 {
   "swagger": "2.0",
   "paths": {
+    "/get-messages": {
+      "get": {
+        "description": "The player can either be GMs or not. There can be multiple GMs in a single game",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "Players"
+        ],
+        "summary": "Retrieve all messages for a specific roll20 game.",
+        "operationId": "get-messages",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int32",
+            "description": "Roll20 ID of the game to parse. For link https://app.roll20.net/join/1/59lzQg --\u003e Game ID is \"1\"",
+            "name": "gameId",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "format": "uint",
+            "description": "Max number of messages to parse. Default is all available",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Include whispers in messages. Default is false",
+            "name": "includeWhispers",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Include rolls in messages. Default is true",
+            "name": "includeRolls",
+            "in": "query"
+          },
+          {
+            "type": "boolean",
+            "description": "Include general chat messages. Default is true",
+            "name": "includeChat",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Complete list of players for the requested game",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Message"
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid QS provided",
+            "schema": {
+              "$ref": "#/definitions/ErrorTemplate"
+            }
+          },
+          "500": {
+            "description": "Configuration error, either env variables missing or provided roll20 credentials invalid",
+            "schema": {
+              "$ref": "#/definitions/ErrorTemplate"
+            }
+          }
+        }
+      }
+    },
     "/get-players": {
       "get": {
         "description": "The player can either be GMs or not. There can be multiple GMs in a single game",
@@ -114,6 +185,50 @@
         }
       },
       "x-go-package": "roll20-scrapper/pkg/http-helpers"
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        ".priority": {
+          "description": "Sent timestamp. I don't know why it's called priority",
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Priority"
+        },
+        "avatar": {
+          "description": "Link to the player avatar",
+          "type": "string",
+          "x-go-name": "Avatar"
+        },
+        "content": {
+          "description": "Either a sub JSON or an expression specifying the content to parse",
+          "type": "string",
+          "x-go-name": "Content"
+        },
+        "origRoll": {
+          "description": "No idea, not parsing\nSignature string\nCommand having triggered the roll action. Ex 1d20",
+          "type": "string",
+          "x-go-name": "OrigRoll"
+        },
+        "playerId": {
+          "description": "Game specific ID of the player sending the message",
+          "type": "string",
+          "x-go-name": "PlayerId"
+        },
+        "type": {
+          "$ref": "#/definitions/MessageType"
+        },
+        "who": {
+          "description": "Character name of the player sending the message",
+          "type": "string",
+          "x-go-name": "Who"
+        }
+      },
+      "x-go-package": "roll20-scrapper/pkg/scrapper"
+    },
+    "MessageType": {
+      "type": "string",
+      "x-go-package": "roll20-scrapper/pkg/scrapper"
     },
     "Player": {
       "type": "object",

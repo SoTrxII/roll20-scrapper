@@ -26,3 +26,11 @@ functions:
     environment_file:
       - .env.yaml
 
+  get-messages:
+    lang: golang-http
+    handler: ./get-messages
+    image: localhost:5000/get-messages:latest
+    build_args:
+      GO111MODULE: off
+    environment_file:
+      - .env.yaml
