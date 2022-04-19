@@ -38,15 +38,15 @@ jobs:
       - name: Moving vendor dir to functions' roots
         id: move_vendor
         run: |
-          mv ./build/get-players/function/vendor ./build/get-players/ &&\
-          mv ./build/get-messages/function/vendor ./build/get-messages/ &&\
-          mv ./build/join-game/function/vendor ./build/join-game/
+          sudo mv ./build/get-players/function/vendor ./build/get-players/ &&\
+          sudo mv ./build/get-messages/function/vendor ./build/get-messages/ &&\
+          sudo mv ./build/join-game/function/vendor ./build/join-game/
       - name: Removing unsused go.mod
         id: remove_go_mod_files
         run: |
-          rm build/get-players/go.* &&\
-          rm build/get-messages/go.* &&\
-          rm build/join-game/go.*
+          sudo rm build/get-players/go.* &&\
+          sudo rm build/get-messages/go.* &&\
+          sudo rm build/join-game/go.*
 
       - name: Build and push get-players func
         uses: docker/build-push-action@v2
