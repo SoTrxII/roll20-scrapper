@@ -38,8 +38,11 @@ jobs:
       - name: Moving vendor dir to functions' roots
         id: move_vendor
         run: |
+          chmod u+x ./build/get-players/modules-cleanup.sh &&\
           sh ./build/get-players/modules-cleanup.sh &&\
+          chmod u+x ./build/get-messages/modules-cleanup.sh &&\
           sh ./build/get-messages/modules-cleanup.sh &&\
+          chmod u+x ./build/join-game/modules-cleanup.sh &&\
           sh ./build/join-game/modules-cleanup.sh
 
       - name: Removing unsused go.mod
