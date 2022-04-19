@@ -6,7 +6,7 @@
 [![Docker Image Size](https://badgen.net/docker/size/sotrx/get-messages/1.2.11?icon=docker&label=get-messages)](https://hub.docker.com/r/sotrx/get-messages/)
 
 This project is a serverless (OpenFaas flavored) implementation of a [Roll20](https://roll20.net/welcome) scrapper.
-Although all function share a single core, each of them is distributed as its own container to leverage scalability.
+Although all functions share a single core, each of them is distributed as its own container to leverage scalability.
 
 Current functionalities includes :
 
