@@ -38,9 +38,9 @@ jobs:
       - name: Moving vendor dir to functions' roots
         id: move_vendor
         run: |
-          cd build/get-players && GO111MODULE=off sh modules-cleanup.sh && cd ../.. &&\
-          cd build/get-messages && GO111MODULE=off sh modules-cleanup.sh && cd ../.. &&\
-          cd build/join-game && GO111MODULE=off sh modules-cleanup.sh && cd ../..
+          sh ./build/get-players/modules-cleanup.sh &&\
+          sh ./build/get-messages/modules-cleanup.sh &&\
+          sh ./build/join-game/modules-cleanup.sh
 
       - name: Removing unsused go.mod
         id: remove_go_mod_files
