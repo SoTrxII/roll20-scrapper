@@ -1,11 +1,11 @@
 module roll20-scrapper
 
-go 1.17
+go 1.18
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/joho/godotenv v1.4.0
-	github.com/openfaas/templates-sdk v0.0.0-20200723110415-a699ec277c12
+	github.com/openfaas/templates-sdk/go-http v0.0.0-20220408082716-5981c545cb03
 	github.com/stretchr/testify v1.7.1
 	handler/function v0.0.0-00010101000000-000000000000
 )
@@ -19,5 +19,3 @@ require (
 )
 
 replace handler/function => ./
-
-//replace github.com/ => ./vendor

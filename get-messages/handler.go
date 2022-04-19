@@ -147,7 +147,7 @@ func Handle(req handler2.Request) (handler2.Response, error) {
 		StatusCode: http.StatusOK,
 		Body:       messagesJson,
 		Header: map[string][]string{
-			"Content-type": []string{"application/json"},
+			"Content-type": {"application/json"},
 		},
 	}, err
 }
