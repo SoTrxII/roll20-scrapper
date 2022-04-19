@@ -43,7 +43,7 @@ jobs:
           cd build/join-game && GO111MODULE=off sh modules-cleanup.sh && cd ../..
 
       - name: Removing unsused go.mod
-        id: move_vendor
+        id: remove_go_mod_files
         run: |
           cd build/get-players && rm go.* && cd ../.. &&\
           cd build/get-players && rm go.* && cd ../.. &&\
