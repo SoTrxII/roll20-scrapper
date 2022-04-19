@@ -38,7 +38,8 @@ jobs:
       - name: Moving vendor dir to functions' roots
         id: move_vendor
         run: |
-          ls && \
+          ls build && \
+          ls build/get-players && \
           chmod u+x ./build/get-players/modules-cleanup.sh &&\
           sh ./build/get-players/modules-cleanup.sh &&\
           chmod u+x ./build/get-messages/modules-cleanup.sh &&\
