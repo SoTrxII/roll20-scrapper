@@ -35,6 +35,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
+      - name: Moving vendor dir to functions' roots
+        id: move_vendor
+        run: |
+          cd build/get-players && GO111MODULE=off sh modules-cleanup.sh && cd ../.. &&\
+          cd build/get-messages && GO111MODULE=off sh modules-cleanup.sh && cd ../.. &&\
+          cd build/join-game && GO111MODULE=off sh modules-cleanup.sh && cd ../..
+
+      - name: Removing unsused go.mod
+        id: move_vendor
+        run: |
+          cd build/get-players && rm go.* && cd ../.. &&\
+          cd build/get-players && rm go.* && cd ../.. &&\
+          cd build/get-players && rm go.* && cd ../..
+
       - name: Build and push get-players func
         uses: docker/build-push-action@v2
         with:
