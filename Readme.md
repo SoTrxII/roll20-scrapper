@@ -4,7 +4,7 @@
 [![Docker Image Size](https://badgen.net/docker/size/sotrx/get-players/1.3.0?icon=docker&label=get-players)](https://hub.docker.com/r/sotrx/get-players/)
 [![Docker Image Size](https://badgen.net/docker/size/sotrx/join-game/1.3.0?icon=docker&label=join-game)](https://hub.docker.com/r/sotrx/join-game/)
 [![Docker Image Size](https://badgen.net/docker/size/sotrx/get-messages/1.3.0?icon=docker&label=get-messages)](https://hub.docker.com/r/sotrx/get-messages/)
-[![Docker Image Size](https://badgen.net/docker/size/sotrx/get-summary/1.3.0?icon=docker&label=get-messages)](https://hub.docker.com/r/sotrx/get-summary/)
+[![Docker Image Size](https://badgen.net/docker/size/sotrx/get-summary/1.3.0?icon=docker&label=get-summary)](https://hub.docker.com/r/sotrx/get-summary/)
 
 This project is a serverless (OpenFaas flavored) implementation of a [Roll20](https://roll20.net/welcome) scrapper.
 Although all functions share a single core, each of them is distributed as its own container to leverage scalability.
