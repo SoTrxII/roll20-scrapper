@@ -140,6 +140,47 @@ func (s *Scrapper) GetPlayers(campaignId string) (*[]Player, error) {
 	return &players, err
 }
 
+// GetSummary Retrieve a short overview of a Roll20 campaign
+func (s *Scrapper) GetSummary(campaignId string) (*Summary, error) {
+	route := s.routes.campaignDetails(campaignId)
+	doc, err := s.getDomOfRoute(route)
+	if err != nil {
+		return nil, fmt.Errorf("unable to retrieve the DOM of %s : %s", route, err)
+	}
+	if err != nil {
+		return nil, err
+	}
+	summary := Summary{}
+
+	doc.Find(".campaign_details").Each(func(_ int, campaignDetailsDiv *goquery.Selection) {
+		// Search for the ID
+		id, exists := campaignDetailsDiv.Attr("data-campaignid")
+		if !exists {
+			return
+		}
+		idNumber, err := strconv.Atoi(id)
+		if err != nil {
+			return
+		}
+		summary.Id = idNumber
+
+		// The name
+		cName := strings.TrimSpace(campaignDetailsDiv.Find(".campaignname span").Text())
+		summary.Name = cName
+
+		// And finnaly the image
+		cImg, exists := campaignDetailsDiv.Find(".campaignicon img").Attr("src")
+		// We don't really mind if the image doesn't exist
+		if !exists {
+			return
+		}
+		summary.Image = cImg
+
+	})
+
+	return &summary, nil
+}
+
 // GetMessages Retrieve all messages from the chat
 func (s *Scrapper) GetMessages(campaignId string, limit uint, options *MessageOptions) (*[]Message, error) {
 	var messages []Message

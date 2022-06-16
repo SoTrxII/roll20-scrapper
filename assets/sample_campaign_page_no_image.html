@@ -1,0 +1,1254 @@
+<!-- A sample DOM of a roll20 campaign. JS/CSS have been purged -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content=“lb07chyng6etwkpmjwu29mkje960mx”/ name=“facebook-domain-verification”>
+    <meta charset="utf-8">
+    <title>Sample campaign | Roll20: Online virtual tabletop</title>
+
+
+    <meta content='Roll20' property='og:title'/>
+    <meta content='website' property='og:type'/>
+    <meta content='https://roll20.net' property='og:url'/>
+    <meta content='https://app.roll20.net/images/Roll20-OG.png?1648578962' property='og:image'/>
+    <meta content='Roll20 brings pen-and-paper gameplay to your 		browser with features that save time and enhance your favorite parts of tabletop games.'
+          property='og:description'/>
+    <meta content='en_US' property='og:locale'/>
+    <meta content='af_ZA' property='og:locale:alternate'/>
+    <meta content='ca_CA' property='og:locale:alternate'/>
+    <meta content='zh_Hant_TW' property='og:locale:alternate'/>
+    <meta content='cs_CZ' property='og:locale:alternate'/>
+    <meta content='da_DK' property='og:locale:alternate'/>
+    <meta content='nl_NL' property='og:locale:alternate'/>
+    <meta content='fr_FR' property='og:locale:alternate'/>
+    <meta content='de_DE' property='og:locale:alternate'/>
+    <meta content='el_GR' property='og:locale:alternate'/>
+    <meta content='he_IL' property='og:locale:alternate'/>
+    <meta content='hu_HU' property='og:locale:alternate'/>
+    <meta content='it_IT' property='og:locale:alternate'/>
+    <meta content='ja_JP' property='og:locale:alternate'/>
+    <meta content='ko_KR' property='og:locale:alternate'/>
+    <meta content='pl_PL' property='og:locale:alternate'/>
+    <meta content='pt_PT' property='og:locale:alternate'/>
+    <meta content='ru_RU' property='og:locale:alternate'/>
+    <meta content='es_ES' property='og:locale:alternate'/>
+    <meta content='sv_SE' property='og:locale:alternate'/>
+    <meta content='tr_TR' property='og:locale:alternate'/>
+    <meta content='uk_UK' property='og:locale:alternate'/>
+
+    <meta content="Roll20" property="og:site_name"/>
+    <meta content='Roll20 logo, a pink and purple 20-sided die with the number twenty featured on its face. The die sits on top of the name "Roll20" in black font.'
+          property="og:image:alt"/>
+
+
+    <link href="/v3/assets/js/libs/@fortawesome/fontawesome-free/css/all.min.css?1648578963" rel="stylesheet"
+          type="text/css"/>
+
+    <link href="/v3/assets/js/libs/@fortawesome/fontawesome-free/css/all.min.css?1648578963" rel="stylesheet"
+          type="text/css"/>
+
+    <link href="/assets/v2.css?1648578963" rel="stylesheet" type="text/css"/>
+
+    <link href="/v2/css/browse.css?1648578963" rel="stylesheet" type="text/css"/>
+    <link href="/v2/css/nightmode.css" rel="stylesheet" type="text/css"/>
+
+    <meta content="width=768" name="viewport"/>
+
+
+    <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+
+</head>
+
+<body>
+<!--googleoff: all-->
+<div class="bottom-banner bottom-banner--hidden bottom-banner-css-version-v2" id="gdpr-notification">
+    <div class="bottom-banner__message">
+        Roll20 uses cookies to improve your experience on our site. Cookies enable you to enjoy certain features, social
+        sharing functionality, and tailor message and display ads to your interests on our site and others. They also
+        help us understand how our site is being used. By continuing to use our site, you consent to our use of cookies.
+        Update your cookie preferences <a href='#' id='banner-link-preferences'>here</a>.
+    </div>
+    <span aria-label="Close Cookie Toast" class="bottom-banner__dismiss-icon" id="gdpr-notification-dismiss-button">&times;</span>
+</div>
+
+<div class="cookie-modal--hidden" id="cookie-modal">
+
+    <!-- Modal content -->
+    <div class="cookie-modal-content cookie-modal-css-version-v2">
+        <span class="close" id="cookie-modal-dismiss">&times;</span>
+        <h3>Cookie Preferences</h3>
+        <span class="cookie-modal_switch">
+		<label class="switch">
+		<input class="feature_toggle" id="cookie-modal-input" type="checkbox">
+		<span class="slider round"></span>
+	</span>
+        <hr>
+
+        We use Cookies to help personalize and improve Roll20. For more information on our use of non-essential Cookies,
+        visit our Privacy Policy <a
+            href=https://roll20.zendesk.com/hc/en-us/articles/360037770793-Terms-of-Service-and-Privacy-Policy
+            target='_blank'>here.</a>
+    </div>
+
+</div>
+<!--googleon: all-->
+
+<div class="container topbar">
+
+
+    <div class="bna" style="max-width: 70%; ">
+
+				<span class="footer">
+					<a href="https://app.roll20.net/account/supporter/?bannertext&utm_source=inhouse&utm_medium=banner&utm_campaign=leadertext">
+						Upgrade to remove ads </a>
+				</span>
+
+
+        <div id='dfp-1349444251840-1'
+             style='width:728px; overflow: hidden; height:90px; margin-left: auto; margin-right: auto; max-width: 100%;'>
+        </div>
+    </div>
+
+
+    <div class="row"
+         style="background-color: white; position: relative; z-index: 10000; padding-top: 20px; padding-bottom: 10px; margin-right: 0px;">
+        <div class="col-md-8 logo" style="width: 275px;">
+            <a href="https://app.roll20.net">
+
+                <img alt="Roll20 logo" class="withad" src="https://app.roll20.net/v2/images/roll20-logo.png?v=2"
+                     style=""/>
+            </a>
+        </div>
+    </div>
+
+    <div class="row mobilemenu">
+
+        <div class="col-md-12 btn-row">
+
+            <div class="menu-hider"></div>
+
+            <div class="btn-group">
+                <a class="menutoggler btn btn-default" class="btn btn-default" href="#" role="button">Menu<span
+                        class="caret"></span></a>
+
+                <div class="fullmobilemenu">
+
+                    <ul class="nav nav-pills nav-stacked">
+
+                        <li><a href="https://roll20.net/">Home</a></li>
+                        <li><a href="https://app.roll20.net/campaigns/search">My Games</a></li>
+                        <li><a href="https://app.roll20.net/lfg">Join a Game</a></li>
+                        <li><a href="https://marketplace.roll20.net/">Marketplace</a></li>
+                        <li><a href="https://roll20.net/compendium">Compendium</a></li>
+                        <li><a href="https://app.roll20.net/forum">Forums</a></li>
+                        <li><a href="https://roll20.zendesk.com/">Help Center</a></li>
+                        <li><a href="https://wiki.roll20.net/Main_Page">Wiki</a></li>
+                        <li><a href="http://blog.roll20.net">Blog</a></li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="simplecontainer right topbarlogin">
+
+                <div class="btn-group signin">
+                    <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            id="signin" type="button">
+                        User
+                        <span class="caret"></span>
+                    </button>
+                </div>
+                <div area-labelledby="signin" class="simple" role="menu">
+                    <a href="https://app.roll20.net/account/">My Account</a>
+                    <a href="https://app.roll20.net/users/me/">My Profile</a>
+                    <a href="https://marketplace.roll20.net/wishlists/2">My Wishlists</a>
+                    <a href="https://marketplace.roll20.net/myitems">My Marketplace Items</a>
+                    <a href="https://app.roll20.net/private_message/inbox/">Private Messages Inbox</a>
+
+
+                    <a href="https://roll20.net/help/" target="_blank">Help Center</a>
+                    <a href="https://app.roll20.net/sessions/destroy/">Sign Out</a>
+                </div>
+
+            </div>
+
+            <div class="simplecontainer right topbarnotifications">
+
+
+                <div class="btn-group alertcontainer">
+                    <a class="btn btn-default pictos" href="https://app.roll20.net/private_message/inbox/"
+                       role="button">M</a>
+                </div>
+
+
+            </div>
+
+            <div class="simplecontainer right topbarsitenotifications">
+
+                <div class="btn-group alertcontainer newalerts">
+                    <button aria-expanded="false" class="btn btn-default dropdown-toggle sitenotifications"
+                            data-toggle="dropdown" id="sitenotifications" type="button">
+                        <div class="countcontainer">
+
+
+                            <span class="notificationcount">1</span>
+
+                        </div>
+                        <span class="pictos">:</span>
+                    </button>
+                </div>
+                <div area-labelledby="sitenotifications" class="simple sitenotifications" role="menu">
+
+
+                    <div class="notification new">
+                        <a href="https://app.roll20.net/forum/post/10697157/release-note-feb-16-2022-compendium-sharing-updates">
+                            <div class="thumbcontainer">
+                                <img src="/images/Notification System Icons/social-pink.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">Updated Compendium Sharing</span>
+                                <span class="short">Shared Compendiums are now accessible via the web Compendium.</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="notification ">
+                        <a href="https://marketplace.roll20.net/browse/gameaddon/11548/the-camp-clearwater-massacre">
+                            <div class="thumbcontainer">
+                                <img src="/images/logo-die-large.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">Dynamic Lighting Unlocked</span>
+                                <span class="short">Summer Camp! July 9 - 19: ALL games have free access to Dynamic Lighting! Claim a free adventure now to get started.</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="notification ">
+                        <a href="https://blog.roll20.net/posts/retiring-legacy-dynamic-lighting-what-you-need-to-know/">
+                            <div class="thumbcontainer">
+                                <img src="/images/Notification System Icons/fix-pink.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">Legacy Dynamic Lighting Retirement Date</span>
+                                <span class="short">We are retiring Legacy Dynamic Lighting on May 18. Visit our blog for a full explanation.</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="notification ">
+                        <a href="https://blog.roll20.net/post/631254541713768448/new-from-roll20-roll20-reserve">
+                            <div class="thumbcontainer">
+                                <img src="/images/Notification System Icons/plus-pink.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">New Pro Feature: Roll20 Reserve</span>
+                                <span class="short">Roll20 Reserve is live with monthly perks for Pro Subscribers. Our way of saying thanks!</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <button class="btn btn-purple btn-sm fetch_more_notifications">See More<span
+                            class="ss-navigatedown"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row desktopmenu">
+
+        <div class="col-md-12 btn-row">
+
+            <div class="menu-hider"></div>
+
+
+            <div class="btn-group">
+                <a class="btn btn-default" href="https://roll20.net" role="button">Home</a>
+            </div>
+            <div class="btn-group drop">
+                <a aria-expanded="false" class="btn btn-default" data-hover="dropdown"
+                   data-toggle="dropdown" href="https://app.roll20.net/campaigns/search/" role="button">Games</a>
+                <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-hover="dropdown"
+                        data-toggle="dropdown" id="games" type="button">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+            </div>
+            <div area-labelledby="games" class="full games-menu" role="menu">
+                <div class="menu">
+                    <a href="https://app.roll20.net/campaigns/search/">My Games</a>
+                    <a href="https://app.roll20.net/campaigns/new/">Create New Game</a>
+                    <a href="https://app.roll20.net/lfg/search/">Join a Game</a>
+                    <a href="https://app.roll20.net/playerdirectory/">Player Directory</a>
+
+                    <a href="https://app.roll20.net/editor/tutorial/">Tutorial</a>
+                </div>
+
+
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://app.roll20.net/editor/tutorial/">
+                            <img src="/images/banner-tutorial.jpg">
+                        </a>
+                    </div>
+                    <div class="gameinfo">
+                        <a href="https://app.roll20.net/editor/tutorial/">Tutorial</a>
+                        <div class="shorthr"></div>
+                        <span class="gameinfo">Learn to use Roll20</span>
+                    </div>
+                </div>
+
+
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://app.roll20.net/campaigns/details/4485864">
+
+                            <img src="https://s3.amazonaws.com/files.d20.io/images/150821002/LAb24V6FNOnmQvjMniPseg/med.jpg?1594918068843">
+
+                        </a>
+                    </div>
+                    <div class="gameinfo">
+                        <a href="https://app.roll20.net/campaigns/details/4485864">L'Odyssée étrange</a>
+                        <div class="shorthr"></div>
+
+                        <span class="gameinfo">Next Game</span>
+                        <span class="gameinfo">Not Scheduled</span>
+
+                        <a href="https://app.roll20.net/editor/setcampaign/4485864">
+                            Launch Game
+                        </a>
+                    </div>
+                </div>
+
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://app.roll20.net/campaigns/details/9509060">
+
+                            <img src="/images/campaign-placeholder.jpg?v=2">
+
+                        </a>
+                    </div>
+                    <div class="gameinfo">
+                        <a href="https://app.roll20.net/campaigns/details/9509060">Miaou 6</a>
+                        <div class="shorthr"></div>
+
+                        <span class="gameinfo">Next Game</span>
+                        <span class="gameinfo">Not Scheduled</span>
+
+                        <a href="https://app.roll20.net/editor/setcampaign/9509060">
+                            Launch Game
+                        </a>
+                    </div>
+                </div>
+
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://app.roll20.net/campaigns/details/12725261">
+
+                            <img src="https://s3.amazonaws.com/files.d20.io/images/276361606/gYbpiG8_pfs5wc9HLPa0CA/med.png?1647702352927">
+
+                        </a>
+                    </div>
+                    <div class="gameinfo">
+                        <a href="https://app.roll20.net/campaigns/details/12725261">Fire and Ice</a>
+                        <div class="shorthr"></div>
+
+                        <span class="gameinfo">Next Game</span>
+                        <span class="gameinfo">Not Scheduled</span>
+
+                        <a href="https://app.roll20.net/editor/setcampaign/12725261">
+                            Launch Game
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="btn-group drop">
+                <a aria-expanded="false" class="btn btn-default" data-hover="dropdown" data-toggle="dropdown"
+                   href="https://marketplace.roll20.net" role="button">Marketplace</a>
+                <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-hover="dropdown"
+                        data-toggle="dropdown" id="marketplace" type="button">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+            </div>
+            <div aria-labelledby="marketplace" class="full" role="menu">
+                <div class="menu">
+                    <a href="https://marketplace.roll20.net">What's New</a>
+                    <a href="https://marketplace.roll20.net/browse">Browse</a>
+
+                    <a href="https://marketplace.roll20.net/myitems">My Marketplace Items</a>
+
+                    <a href="https://marketplace.roll20.net/gift/">Give a Gift</a>
+                    <a href="https://marketplace.roll20.net/coupon/">Redeem a Code</a>
+                    <a href="https://merchoforr.com/">Merchandise</a>
+                </div>
+
+                <div class="listing marketplaceitem">
+                    <div class="inneritem">
+
+
+                        <a href="https://marketplace.roll20.net/browse/bundle/12914/critical-role-call-of-the-netherdeep"><img
+                                src="https://s3.amazonaws.com/files.d20.io/marketplace/2325432/bz4jlo68aZ-L3LN-DYuy_w/med.png?1647351286227"/></a>
+
+                        <div class="desc"><em>Critical Role: Call of the Netherdeep</em>
+                            <br/>
+                            by Wizards of the Coast
+                        </div>
+                    </div>
+                </div>
+
+                <div class="listing marketplaceitem">
+                    <div class="inneritem">
+
+
+                        <a href="https://marketplace.roll20.net/browse/bundle/13881/cyberpunk-red"><img
+                                src="https://s3.amazonaws.com/files.d20.io/marketplace/2280008/l8-RANvHnlwPjABn4z11Tw/med.jpg?1645125211013"/></a>
+
+                        <div class="desc"><em>Cyberpunk RED</em>
+                            <br/>
+                            by R. Talsorian Games
+                        </div>
+                    </div>
+                </div>
+
+                <div class="listing marketplaceitem">
+                    <div class="inneritem">
+
+
+                        <a href="https://marketplace.roll20.net/browse/bundle/14731/call-of-cthulhu-keeper-bundle"><img
+                                src="https://s3.amazonaws.com/files.d20.io/marketplace/2256734/WIKX6a2C4otQxUfimYZcrQ/med.png?1644023678945"/></a>
+
+                        <div class="desc"><em>Call of Cthulhu Keeper Bundle</em>
+                            <br/>
+                            by Chaosium Inc.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="listing marketplaceitem">
+                    <div class="inneritem">
+
+
+                        <a href="https://marketplace.roll20.net/browse/bundle/14713/power-rangers-rpg-a-glutton-for-punishment"><img
+                                src="https://s3.amazonaws.com/files.d20.io/marketplace/2308598/nI4sZHm2WkRw-UTMCrbQvw/med.png?1646424200759"/></a>
+
+                        <div class="desc"><em>Power Rangers RPG: A Glutton for Punishment</em>
+                            <br/>
+                            by Renegade Game Studios
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="btn-group drop">
+                <a aria-expanded="false" class="btn btn-default" data-hover="dropdown" data-toggle="dropdown"
+                   href="https://roll20.net/compendium/" role="button">Tools</a>
+                <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-hover="dropdown"
+                        data-toggle="dropdown" id="digitaltools" type="button">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+            </div>
+            <div aria-labelledby="digitaltools" class="full" role="menu">
+                <div class="menu">
+                    <a href="https://roll20.net/compendium/">Compendium</a>
+                    <a href="https://app.roll20.net/vault/">Character Vault</a>
+                    <a href="https://app.roll20.net/audio_library/">Manage Audio</a>
+
+                    <a href="https://app.roll20.net/marker-library">Token Marker Library</a>
+                    <a href="https://pages.roll20.net/companionapp">Roll20 Companion App</a>
+                    <a href="https://pages.roll20.net/dnd/">D&D Hub</a>
+                </div>
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://app.roll20.net/vault/">
+                            <img src="/images/banner-character-vault.jpg">
+                        </a>
+                    </div>
+                    <div class="gameinfo">
+                        <a href="https://app.roll20.net/vault/">Character Vault</a>
+                        <div class="shorthr"></div>
+                        <span class="gameinfo">Any Concept / Any System</span>
+                    </div>
+                </div>
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://roll20.net/compendium/">
+                            <img src="/images/banner-compendium.jpg">
+                        </a>
+                    </div>
+                    <div class="gameinfo">
+                        <a href="https://roll20.net/compendium/">Compendium</a>
+                        <div class="shorthr"></div>
+                        <span class="gameinfo">Your System Come To Life</span>
+                    </div>
+                </div>
+
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://pages.roll20.net/companionapp">
+                            <img src="/images/banner-companion-app.jpg">
+                        </a>
+                    </div>
+                    <div class="gameinfo">
+                        <a href="https://pages.roll20.net/companionapp">Roll20 Companion App</a>
+                        <div class="shorthr"></div>
+                        <span class="gameinfo">Free Mobile App For Players</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="btn-group drop">
+                <a aria-expanded="false" class="btn btn-default community-toggler" data-hover="dropdown"
+                   data-toggle="dropdown" href="https://app.roll20.net/forum/" role="button">Community</a>
+                <button aria-expanded="false" class="btn btn-default dropdown-toggle community community-toggler"
+                        data-hover="dropdown" data-toggle="dropdown" id="community" type="button">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+            </div>
+            <div aria-labelledby="community" class="full community" role="menu">
+                <div class="menu">
+                    <a href=" https://blog.roll20.net/">Blog</a>
+                    <a href="https://roll20.net/help" target="_blank">Help Center</a>
+                    <a href="https://roll20.zendesk.com/hc/en-us/articles/360037772613-Change-Log" target="_blank">Change
+                        Log</a>
+                    <a href="https://app.roll20.net/forum/">Forums</a>
+                    <a class="dropdown-item" href="https://wiki.roll20.net/Main_Page">Community Wiki</a>
+                    <a href="http://www.twitch.tv/roll20app" target="_blank">Live Stream</a>
+                    <a href="https://www.youtube.com/roll20app" target="_blank">VODs</a>
+                    <a href="https://pages.roll20.net/ambassador-program" target="_blank">Ambassador Program</a>
+                </div>
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="http://roll20.io/help">
+                            <img src="https://s3.amazonaws.com/files.d20.io/images/108817734/3wP4E9ANeZSrjFEh5d3RAg/original.jpg?1584553652821"/>
+                        </a>
+                    </div>
+                    <p class="snippet">
+                        <a href="http://roll20.io/help">
+                            Roll20 Help Center
+                        </a>
+                    </p>
+                </div>
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://app.roll20.net/lfg/search/">
+                            <img src="https://s3.amazonaws.com/files.d20.io/images/235128791/emsps59EW8S5z9ghg_qFOw/original.jpg?1626732976702"/>
+                        </a>
+                    </div>
+                    <p class="snippet">
+                        <a href="https://app.roll20.net/lfg/search/">
+                            Find your next game group!
+                        </a>
+                    </p>
+                </div>
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://roll20.net/reserve">
+                            <img src="https://s3.amazonaws.com/files.d20.io/images/271147938/OgsDO1zLc5Pnt7ZwKOejkQ/original.png?1645026308591"/>
+                        </a>
+                    </div>
+                    <p class="snippet">
+                        <a href="https://roll20.net/reserve">
+                            Roll20 Reserve
+                        </a>
+                    </p>
+                </div>
+                <div class="listing">
+                    <div class="imgcontainer">
+                        <a href="https://pages.roll20.net/oneshotgames">
+                            <img src="https://s3.amazonaws.com/files.d20.io/images/270231470/1qnb5yM7-wtujTkO18Ri8A/original.jpg?1644588199104"/>
+                        </a>
+                    </div>
+                    <p class="snippet">
+                        <a href="https://pages.roll20.net/oneshotgames">
+                            Discover A New Fave
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="btn-group" id="optlysub">
+                <a ; class="btn btn-default" href="https://app.roll20.net/why-subscribe-to-roll20"
+                   role="button" style="color: #ee2b7b">Subscribe</a>
+            </div>
+
+
+            <div class="simplecontainer right topbarlogin">
+
+                <div class="btn-group signin">
+                    <button aria-expanded="false" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            id="signin" type="button">
+                        SoTrx d.
+                        <span class="caret"></span>
+                    </button>
+                </div>
+                <div area-labelledby="signin" class="simple" role="menu">
+                    <a href="https://app.roll20.net/account/">My Account</a>
+                    <a href="https://app.roll20.net/users/me/">My Profile</a>
+                    <a href="https://marketplace.roll20.net/wishlists/2">My Wishlists</a>
+                    <a href="https://marketplace.roll20.net/myitems">My Marketplace Items</a>
+                    <a href="https://app.roll20.net/private_message/inbox/">Private Messages Inbox</a>
+
+
+                    <a href="https://roll20.net/help/" target="_blank">Help Center</a>
+                    <a href="https://app.roll20.net/sessions/destroy/">Sign Out</a>
+                </div>
+
+            </div>
+
+            <div class="simplecontainer right topbarnotifications">
+
+
+                <div class="btn-group alertcontainer">
+                    <a class="btn btn-default pictos" href="https://app.roll20.net/private_message/inbox/"
+                       role="button">M</a>
+                </div>
+
+
+            </div>
+
+            <div class="simplecontainer right topbarsitenotifications">
+
+                <div class="btn-group alertcontainer newalerts">
+                    <button aria-expanded="false" class="btn btn-default dropdown-toggle sitenotifications"
+                            data-toggle="dropdown" id="sitenotifications" type="button">
+                        <div class="countcontainer">
+
+
+                            <span class="notificationcount">1</span>
+
+                        </div>
+                        <span class="pictos">:</span>
+                    </button>
+                </div>
+                <div area-labelledby="sitenotifications" class="simple sitenotifications" role="menu">
+
+
+                    <div class="notification new">
+                        <a href="https://app.roll20.net/forum/post/10697157/release-note-feb-16-2022-compendium-sharing-updates">
+                            <div class="thumbcontainer">
+                                <img src="/images/Notification System Icons/social-pink.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">Updated Compendium Sharing</span>
+                                <span class="short">Shared Compendiums are now accessible via the web Compendium.</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="notification ">
+                        <a href="https://marketplace.roll20.net/browse/gameaddon/11548/the-camp-clearwater-massacre">
+                            <div class="thumbcontainer">
+                                <img src="/images/logo-die-large.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">Dynamic Lighting Unlocked</span>
+                                <span class="short">Summer Camp! July 9 - 19: ALL games have free access to Dynamic Lighting! Claim a free adventure now to get started.</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="notification ">
+                        <a href="https://blog.roll20.net/posts/retiring-legacy-dynamic-lighting-what-you-need-to-know/">
+                            <div class="thumbcontainer">
+                                <img src="/images/Notification System Icons/fix-pink.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">Legacy Dynamic Lighting Retirement Date</span>
+                                <span class="short">We are retiring Legacy Dynamic Lighting on May 18. Visit our blog for a full explanation.</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="notification ">
+                        <a href="https://blog.roll20.net/post/631254541713768448/new-from-roll20-roll20-reserve">
+                            <div class="thumbcontainer">
+                                <img src="/images/Notification System Icons/plus-pink.png">
+                            </div>
+                            <div class="message">
+                                <span class="title">New Pro Feature: Roll20 Reserve</span>
+                                <span class="short">Roll20 Reserve is live with monthly perks for Pro Subscribers. Our way of saying thanks!</span>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <button class="btn btn-purple btn-sm fetch_more_notifications">See More<span
+                            class="ss-navigatedown"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+
+
+    <div class="row campaign_details" data-campaignid="5632681">
+        <div class="col-md-8">
+            <div class="masthead">
+                <!--<div class="campaignicon">
+
+                    <img src="https://s3.amazonaws.com/files.d20.io/images/100983671/2sdfzQUlO7QmO2GVPgFNVA/max.jpg?1578310034275">
+
+                </div>-->
+                <div class="campaignname">
+
+                    <h1>
+                        <span>Les Contes du Continent</span>
+                    </h1>
+
+                </div>
+            </div>
+            <div class="clear"></div>
+
+
+            <div class="campaign_actions ">
+
+
+                <div class="pull-right" style="margin-left: 40px;">
+
+                    <a class="leavecampaign leavecampaign_player" href="javascript:void(0);">
+                        Leave Game
+                    </a>
+                </div>
+
+
+                <div class="pull-right">
+                    <div class="btn-group btn-group-dropdown">
+                        <button class="btn btn-info ss-searchfile dropdown-toggle" data-toggle="dropdown">
+                            Content
+                            <span class="ss-navigatedown"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <div class="arrow top"></div>
+                            <li>
+                                <a href="/campaigns/chatarchive/5632681" id="view-chat-archive-button">Chat Archive</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="btn-group btn-group-dropdown" id="playButton" style="">
+                    <a class="btn btn-primary calltoaction ss-play" href="/editor/setcampaign/5632681">
+                        Launch Game
+                    </a>
+                </div>
+
+
+            </div>
+
+
+            <div class="clear" style="height: 30px;"></div>
+
+            <div class="patchnotes alert alert-info" style="display:none; margin-bottom: 30px;">
+
+            </div>
+
+            <div id="udlconvertflash" style="display:none; visibility: hidden;"></div>
+
+
+            <p class="meta">
+
+
+            </p>
+            <p class="description markdown">
+            <p>Campagne dans le monde de The Witcher</p>
+
+            </p>
+
+
+            <hr>
+
+
+            <div class="comments forum">
+
+                <div class="pull-right">
+                    <a class="btn btn-primary ss-plus" href="/campaigns/forum/5632681#newtopic">
+                        Post New Topic
+                    </a>
+                </div>
+
+                <h3 style="background:none;">Recent Game Discussion</h3>
+                <div class="clear" style="height: 10px;"></div>
+                <div class="postlistings"></div>
+
+
+                <div class="well" style="color: #777; font-style: italic;">
+                    There currently aren't any discussions for this game. Game discussions allow you to communicate out
+                    of the game; all game participants will be notified. Click the "Post New Topic" button above to
+                    start a discussion.
+                </div>
+                <hr>
+
+                <div class="pull-right" style="margin-top: 15px;">
+                    <a href="/campaigns/forum/5632681">
+                        <strong>View All Posts &raquo;</strong>
+                    </a>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+
+        <div class="col-md-4 playerlisting">
+            <div class="well purple">
+
+                <h2>Created By</h2>
+                <a class="userprofile" href="https://app.roll20.net/users/1">
+                    <div class="avatar" style="margin-bottom:20px;"><img
+                            src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                    </div>
+                    <div class="profilemeta">
+                        <div class="name">GM</div>
+
+
+                        <div class="userlevel">Free | <a href="https://app.roll20.net/gift/forid/1353262"> Send a Gift
+                            Subscription </a></div>
+
+
+                        <div class="membersince">Member since: 02/18/16</div>
+                        <div class="hoursplayed">Hours Played: 1265</div>
+                    </div>
+                </a>
+            </div>
+            <div class="well gray">
+
+                <h2>7 Players</h2>
+
+                <div class="clear" style="height: 10px;"></div>
+
+
+                <div class="pclisting">
+                    <a href="/users/2">
+                        <div class="pcitem">
+                            <img class="circleavatar"
+                                 src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                            Player 1
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <div class="pclisting">
+                    <a href="/users/3">
+                        <div class="pcitem">
+                            <img class="circleavatar"
+                                 src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                            Player 2
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <div class="pclisting">
+                    <a href="/users/4">
+                        <div class="pcitem">
+                            <img class="circleavatar"
+                                 src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                            Player 3
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <div class="pclisting">
+                    <a href="/users/5">
+                        <div class="pcitem">
+                            <img class="circleavatar"
+                                 src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                            Player 4
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <div class="pclisting">
+                    <a href="/users/6">
+                        <div class="pcitem">
+                            <img class="circleavatar"
+                                 src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                            Player 5
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <div class="pclisting">
+                    <a href="/users/7">
+                        <div class="pcitem">
+                            <img class="circleavatar"
+                                 src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                            Player 6
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <div class="pclisting">
+                    <a href="/users/8">
+                        <div class="pcitem">
+                            <img class="circleavatar"
+                                 src="https://i.picsum.photos/id/501/200/300.jpg"/>
+                            Player 7
+                        </div>
+                    </a>
+
+
+                </div>
+
+
+                <div class="clear"></div>
+            </div>
+
+
+            <div class="well gray">
+                <h4>There's more Roll20 to enjoy!</h4>
+                <p style="margin-top: 5px;">
+
+                    You could be skipping ads, using advanced features like dynamic lighting, and getting more space to
+                    store your maps and tokens. <strong><a href="/gift/forid/1353262" target="_blank">Buy your GM the
+                    gift of an upgraded Roll20 account</a></strong> and you'll both benefit!
+
+                </p>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="modal fadess onboarding" data-backdrop="static" data-keyboard="false" id="modalOnBoarding" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body onboarding__body">
+                    <button aria-label="Close" class="onboarding__close close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <form>
+                                <div class="onboarding__step text-center" id="step-1">
+                                    <h3 class="onboarding__title">
+                                        Welcome,
+                                        <br>
+                                        SoTrx
+                                    </h3>
+                                    <div class="onboarding__content text-center">
+                                        <p>Let's setup a few things on your new account.</p>
+                                    </div>
+                                </div>
+                                <div class="onboarding__step text-center" id="step-2">
+                                    <h3 class="onboarding__title">
+                                        Language Preference
+                                    </h3>
+                                    <div class="onboarding__content text-center">
+                                        <div class="form-group form-group-select">
+                                            <p>Choose your preferred language.</p>
+                                            <select class="form-control custom-select" id="preferred-language-select"
+                                                    name="language">
+
+
+                                                <option value="af">Afrikaans</option>
+
+
+                                                <option value="ca">Catalan</option>
+
+
+                                                <option value="zh">Chinese Traditional</option>
+
+
+                                                <option value="cs">Czech</option>
+
+
+                                                <option value="da">Danish</option>
+
+
+                                                <option value="nl">Dutch</option>
+
+
+                                                <option selected value="en">English</option>
+
+
+                                                <option value="fr">French</option>
+
+
+                                                <option value="de">German</option>
+
+
+                                                <option value="el">Greek</option>
+
+
+                                                <option value="he">Hebrew</option>
+
+
+                                                <option value="hu">Hungarian</option>
+
+
+                                                <option value="it">Italian</option>
+
+
+                                                <option value="ja">Japanese</option>
+
+
+                                                <option value="ko">Korean</option>
+
+
+                                                <option value="pl">Polish</option>
+
+
+                                                <option value="pt">Portuguese</option>
+
+
+                                                <option value="ru">Russian</option>
+
+
+                                                <option value="es">Spanish</option>
+
+
+                                                <option value="sv">Swedish</option>
+
+
+                                                <option value="tr">Turkish</option>
+
+
+                                                <option value="uk">Ukrainian</option>
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="onboarding__step text-center" id="step-3">
+                                    <h3 class="onboarding__title"> Display Name</h3>
+                                    <div class="onboarding__content text-center">
+                                        <p>Your display name is shown to other Roll20&reg; users.</p>
+                                        <div class="form-group">
+                                            <input class="form-control form-control--text-center" id="display-name"
+                                                   onClick="this.select();" placeholder="SoTrx d." required
+                                                   type="text" value="SoTrx d.">
+                                        </div>
+                                        <div class="alert alert-danger blacklisted-display-name" role="alert"
+                                             style="display:none;">
+                                            The name you chose will cause problems. Please choose another.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="onboarding__step text-center" id="step-4">
+                                    <h3 class="onboarding__title">
+                                        Thanks,
+                                        <br/>
+                                        SoTrx!
+                                    </h3>
+                                    <div class="onboarding__content text-center">
+                                        <p>Visit your dashboard to create a new game, join games and explore the
+                                            marketplace.</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer onboarding__footer">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="onboarding__pagination">
+                            <span class="onboarding__pagination-item"></span>
+                            <span class="onboarding__pagination-item"></span>
+                            <span class="onboarding__pagination-item"></span>
+                            <span class="onboarding__pagination-item"></span>
+                        </div>
+                        <div class="onboarding__action-buttons">
+                            <button aria-label="Back" class="btn btn-secondary btn-prev">Back</button>
+                            <button class="btn calltoaction btn-next">Next</button>
+                            <button aria-label="View Dashboard" class="btn calltoaction btn-view-dashboard"
+                                    data-dismiss="modal">Start Playing!
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" aria-labelledby="add-sets__modal" class="modal fade" id="add-sets__modal" role="dialog"
+         tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-sets__title">Add Token Marker Sets</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" id="add-sets__close" type="button">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="/marker-library/addsets/5632681" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <p>Start typing to search your sets</p>
+                            <select multiple name="token-sets">
+
+                                <option value="1">Default Token Markers</option>
+
+                            </select>
+                            <input name="token-sets-string" type="hidden">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-secondary calltoaction btn-sm pull-left" href="/marker-library/"
+                           id="add-sets__new">Create New Set</a>
+                        <button class="btn btn-neutral btn-sm" data-dismiss="modal" id="add-sets__close" type="button">
+                            Cancel
+                        </button>
+                        <button class="btn btn-primary btn-sm" id="add-sets__save" type="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="conv-light__title">Convert Tokens and Pages to Updated Dynamic Lighting</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" id="conv-light__close" type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="converting_more_info">
+                    <p>Convert Lighting will add the Updated Dynamic Lighting settings for the Pages you select,
+                        including the tokens placed on those pages. Optionally, <a
+                                href='https://roll20.zendesk.com/hc/en-us/articles/360039715593-Linking-Tokens-to-Journals'
+                                target='_blank'>Convert Lighting can change the Tokens in the game’s Journal</a>.</p>
+
+                    <div class="alert alert-danger">Use Caution! This tool makes changes to your data.</div>
+
+                    <p>Protect your game data by making a <a
+                            href='https://roll20.zendesk.com/hc/en-us/articles/360039715753-Game-Management#GameManagement-MyGamesPage'
+                            target='_blank'>backup copy</a>. You can also choose to only convert individual pages to try
+                        it out.</p>
+                    <p><em>Going back to the legacy system is as simple as changing the Page Settings.</em></p>
+                    <p>Curious what changes the tool is making? Find out in the <a
+                            href='https://roll20.zendesk.com/hc/en-us/articles/360052433093-How-to-Use-the-Convert-Lighting-Tool'
+                            target='_blank'>Roll20 Help Center</a>.</p>
+                </div>
+                <hr>
+                <form id="conv-light__form">
+                    <div class="form-group">
+                        <div id="conv-light__metaselectors">
+                            <label for="check-all-toggle">
+                                <input checked class="form-check-input" id="check-all-toggle" type="checkbox">
+                                <span class="conv-light__title">Select &#47; Deselect All</span>
+                            </label>
+                            <label for="checkbox-defaulttokens">
+                                <input checked class="form-check-input" id="checkbox-defaulttokens"
+                                       type="checkbox" value="defaulttokens">
+                                <span class="conv-light__title">Convert Journal Tokens <span
+                                        class="pictos">N</span></span>
+                            </label>
+                        </div>
+                        <hr>
+                        <div id="conv-light__pages">
+                            <div class="list-group list-group--select">
+                            </div>
+                            <input id="selected" type="hidden">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-neutral btn-sm" data-dismiss="modal" id="conv-light__close"
+                                type="button">Cancel
+                        </button>
+                        <button class="btn btn-primary btn-sm" id="conv-light__save" type="submit">Convert</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="container globalfooter">
+
+    <div class="row" style="padding-bottom: 20px; padding-top: 60px;">
+
+        <div class="col-md-12">
+
+            <div class="footerborder1"></div>
+            <div class="footerborder2"></div>
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12 copyrightnotice">
+
+            <p style="border-top: none; padding-top: 0px;">&copy; The Orr Group, LLC &middot; <a
+                    href="https://roll20.zendesk.com/hc/en-us/articles/360037254354-Acknowledgments" target="_blank">Acknowledgements</a>
+                &middot; <a
+                        href="https://roll20.zendesk.com/hc/en-us/articles/360037770793-Terms-of-Service-and-Privacy-Policy"
+                        target="_blank">Terms of Service & Privacy Policy</a> &middot; <a
+                        href="https://help.roll20.net/hc/en-us/articles/360037770833-DMCA" target="_blank">DMCA</a>
+                &middot; <a class="cookie_modal" href="javascript:showCookieModal();">Cookies</a> &middot; <a
+                        href="https://roll20.net/help" target="_blank">Support</a> &middot; <a
+                        href="https://roll20.zendesk.com/hc/en-us/requests/new" target="_blank">Contact Us</a> &middot;
+                On Social Media:
+                <a href="https://www.facebook.com/pages/Roll20/439774126041559" target="_blank"><img
+                        alt="Roll20 on Facebook" src="/v2/images/social-fb.png"/></a>
+                <a href="https://twitter.com/roll20app" target="_blank"><img alt="Roll20 on Twitter"
+                                                                             src="/v2/images/social-twitter.png"/></a>
+                <a href="https://www.youtube.com/channel/UCHC1kWACzA7G6D2fqkqsRDg" target="_blank"><img
+                        alt="Roll20 on YouTube" src="/v2/images/social-youtube.png"/></a>
+                <a href="http://twitch.tv/roll20app" target="_blank"><img alt="Roll20 on Twitch"
+                                                                          src="/v2/images/social-twitch.png"/></a>
+                <a href="https://www.instagram.com/roll20app/" target="_blank"><img alt="Roll20 on Instagram"
+                                                                                    src="/v2/images/social-instagram.png"
+                                                                                    style="margin-right: 10px;"/></a>
+            </p>
+            <p style="border-top: none; padding-top: 0px;">Roll20<sup>&reg;</sup> is a Registered Trademark of The Orr
+                Group, LLC. All rights reserved.
+
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

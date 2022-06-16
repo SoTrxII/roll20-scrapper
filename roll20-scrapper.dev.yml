@@ -34,3 +34,12 @@ functions:
       GO111MODULE: off
     environment_file:
       - .env.yaml
+
+  get-summary:
+    lang: golang-http
+    handler: ./get-summary
+    image: localhost:5000/get-summary:latest
+    build_args:
+      GO111MODULE: off
+    environment_file:
+      - .env.yaml

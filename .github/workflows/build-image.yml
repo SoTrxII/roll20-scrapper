@@ -40,12 +40,15 @@ jobs:
         run: |
           sudo mv ./build/get-players/function/vendor ./build/get-players/ &&\
           sudo mv ./build/get-messages/function/vendor ./build/get-messages/ &&\
-          sudo mv ./build/join-game/function/vendor ./build/join-game/
+          sudo mv ./build/join-game/function/vendor ./build/join-game/ &&\
+          sudo mv ./build/get-summary/function/vendor ./build/get-summary/
+
       - name: Removing unsused go.mod
         id: remove_go_mod_files
         run: |
           sudo rm build/get-players/go.* &&\
           sudo rm build/get-messages/go.* &&\
+          sudo rm build/get-summary/go.* &&\
           sudo rm build/join-game/go.*
 
       - name: Build and push get-players func
@@ -77,3 +80,13 @@ jobs:
             GO111MODULE=off
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/get-messages:${{ steps.define_env.outputs.tag }}
+
+      - name: Build and push get-messages func
+        uses: docker/build-push-action@v2
+        with:
+          context: ./build/get-summary/
+          file: ./build/get-summary/Dockerfile
+          build-args: |
+            GO111MODULE=off
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/get-summary:${{ steps.define_env.outputs.tag }}

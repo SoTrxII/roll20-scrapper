@@ -49,6 +49,17 @@ type Player struct {
 	Username string `json:"username"`
 }
 
+// swagger:model Summary
+//Summary A Roll20 Summary is a collection of basic infos about a campaign
+type Summary struct {
+	// User uploaded image link for this campaign
+	Image string `json:"image"`
+	// Id of this campaign (assigned by roll20)
+	Id int `json:"id"`
+	// Campaign name
+	Name string `json:"name"`
+}
+
 // A Roll20Account is a basic creds user in roll20
 //
 // As there is so such thing as a service account in Roll20,

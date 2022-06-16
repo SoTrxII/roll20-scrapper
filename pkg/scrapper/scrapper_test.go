@@ -341,3 +341,29 @@ func TestGetMessagesWithLimitAndFilter(t *testing.T) {
 
 	mockServer.Close()
 }
+
+func TestGetSummarySimplePage(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_page.html", "/campaigns/details/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	summary, err := scrapper.GetSummary("")
+	assert.Nil(t, err)
+	// The sample as 70 messages per page. 19 of them are whispers. They are 3 virtual page. With a limit of 21,
+	assert.Equal(t, 5632681, summary.Id)
+	assert.Equal(t, "Les Contes du Continent", summary.Name)
+	assert.Equal(t, "https://s3.amazonaws.com/files.d20.io/images/100983671/2sdfzQUlO7QmO2GVPgFNVA/max.jpg?1578310034275", summary.Image)
+
+	mockServer.Close()
+}
+func TestGetSummaryNoImage(t *testing.T) {
+	mockServer := SetupTestServer("./../../assets/sample_campaign_page_no_image.html", "/campaigns/details/")
+	scrapper, err := NewScrapper(os.Getenv("ROLL20_BASE_URL"), &Roll20Account{Login: "_", Password: "_"}, nil)
+	assert.Nil(t, err)
+	summary, err := scrapper.GetSummary("")
+	assert.Nil(t, err)
+	assert.Equal(t, 5632681, summary.Id)
+	assert.Equal(t, "Les Contes du Continent", summary.Name)
+	assert.Equal(t, "", summary.Image)
+
+	mockServer.Close()
+}
